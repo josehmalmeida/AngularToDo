@@ -1,0 +1,58 @@
+<h3 class="bg-primary text-white p-1 text-center">{{getUser()}}'s To Do List</h3>
+<form [formGroup]="toDoForm" novalidate>
+  <div class="row">
+    <div class="col-10 text-center">
+      <input class="form-control" formControlName="toDo" autocomplete="off" style="width:100%" />
+    </div>
+    <div class="col-2 text-center">
+      <button class="btn btn-primary" style="width:100%" (click)="addItem(toDoForm.value.toDo)" [disabled]="toDoForm.invalid">Add</button>
+    </div>
+  </div>
+</form>
+<table class="table table-striped table-bordered" *ngIf="getToDoItems().length !== 0; else noItemToDo">
+  <thead>
+    <tr>
+      <th colspan="4" class="text-center">To Do Items</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>Description</th>
+      <th>Do</th>
+      <th>Erase</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of getToDoItems(); let i = index">
+      <td>{{i+1}}</td>
+      <td>{{item.action}}</td>
+      <td><i class="material-icons md-18 cursor-pointer" (click)="doItem(item)">check</i></td>
+      <td><i class="material-icons md-18 cursor-pointer" (click)="removeItem(item)">cancel</i></td>
+    </tr>
+  </tbody>
+</table>
+<ng-template #noItemToDo>
+  <p class="text-center">No items to do!</p>
+</ng-template>
+<br />
+<table class="table table-striped table-bordered" *ngIf="getDoneItems().length !== 0; else noItemDone">
+  <thead>
+    <tr>
+      <th colspan="3" class="text-center">Done Items</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>Description</th>
+      <th>Erase</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of getDoneItems(); let i = index">
+      <td>{{i+1}}</td>
+      <td>{{item.action}}</td>
+      <td><i class="material-icons md-18 cursor-pointer" (click)="removeItem(item)">cancel</i></td>
+    </tr>
+  </tbody>
+</table>
+<ng-template #noItemDone>
+  <p class="text-center">No done items!</p>
+</ng-template>
